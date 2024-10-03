@@ -71,17 +71,47 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   // Check for game over condition
   function checkForGameOver() {
-    if (!tile.includes(0)) {
-      for (let i = 0; i < 4; i++) {
+    let gameOver = true;
+
+    for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 4; j++) {
-          let currenIndex = i * 4 + j;
-          if ( j < 3 && tile[currenIndex] === tiles[currenIndex + 1]) return; //check for horizontal
-          if ( i < 3 && tile[currenIndex] === tiles[currenIndex + 4]) return;
+            let currentIndex = i * 4 + j;
+
+            if (tile.includes(0)) {
+                gameOver = false;
+                break;
+            }
+
+            if (j < 3 && tile[currentIndex] === tile[currentIndex + 1]) {
+                gameOver = false;
+                break;
+            }
+
+            if (i < 3 && tile[currentIndex] === tile[currentIndex + 4]) {
+                gameOver = false;
+                break;
+            }
         }
-      }
-      alert("Game Over! No more moves avilable");
+        if (!gameOver) break;
     }
-  }
+
+    if (gameOver) {
+        alert("Game Over! No more moves available");
+    }
+}
+
+  // function checkForGameOver() {
+  //   if (!tile.includes(0)) {
+  //     for (let i = 0; i < 4; i++) {
+  //       for (let j = 0; j < 4; j++) {
+  //         let currenIndex = i * 4 + j;
+  //         if ( j < 3 && tile[currenIndex] === tiles[currenIndex + 1]) return; // Check for horizontal
+  //         if ( i < 3 && tile[currenIndex] === tiles[currenIndex + 4]) return; // Check for vertical
+  //       }
+  //     }
+  //     alert("Game Over! No more moves avilable");
+  //   }
+  // }
 
   // Check for 2048 tile
   function checkForWin() {
