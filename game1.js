@@ -22,6 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     addNumber(); // Add a random number (2) to the board
     addNumber(); // Add another random number to the board
+    noMergeCount = 0; // Reset the no merge count at the start of the new game
+    score = 0; // Reset the score
+    scoreDisplay.textContent = "Current score = " + score; // Update score display
   }
 
   // Add a number (2) to the board in a random empty tile
@@ -99,14 +102,16 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!gameOver) break; // Break outer loop if game is not over
     }
 
+    // If game over condition is met, display alert
     if (gameOver) {
       alert("Game Over! No more moves available");
+      createBoard(); // Reset the board and restart the game
     }
     
     // Check if we reached 4 moves without a merge
     if (noMergeCount >= 4) {
       alert("Game Over! 4 moves without merging");
-      noMergeCount = 0; // Reset the counter
+      createBoard(); // Reset the board and restart the game
     }
   }
 
@@ -114,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function checkForWin() {
     if (tiles.includes(2048)) {
       alert("Congratulations! You've reached the 2048 tile");
+      createBoard(); // Reset the board and restart the game
     }
   }
 
@@ -201,13 +207,13 @@ document.addEventListener("DOMContentLoaded", () => {
       moveTiles('down');
     }
     scoreDisplay.textContent = score; // Update score display
-    if (score > best) { // Update best score
-      best = score;
+    if (score > best) {
+      best = score; // Update best score if current score is higher
       bestDisplay.textContent = best;
     }
   });
 
-  // Variables to store touch positions for swipe detection
+  // Variables for touch events to detect swipes
   let touchStartX = 0;
   let touchStartY = 0;
   let touchEndX = 0;
@@ -233,9 +239,9 @@ document.addEventListener("DOMContentLoaded", () => {
         moveTiles('up');
       }
     }
-    scoreDisplay.textContent = score;
+    scoreDisplay.textContent = score; // Update score display
     if (score > best) {
-      best = score;
+      best = score; // Update best score if current score is higher
       bestDisplay.textContent = best;
     }
   }
@@ -249,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener('touchend', e => {
     touchEndX = e.changedTouches[0].screenX;
     touchEndY = e.changedTouches[0].screenY;
-    handleSwipe();
+    handleSwipe(); // Handle the swipe after touch ends
   });
 
   // Start a new game when the button is clicked
